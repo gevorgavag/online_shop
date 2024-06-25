@@ -20,7 +20,7 @@ export const initialItems = [
         title: "Table",
         img: "table.jpg",
         desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-        category: "chairs",
+        category: "table",
         price: "149.00"
     },
     {
@@ -28,7 +28,7 @@ export const initialItems = [
         title: "Sofa",
         img: "safa.jpeg",
         desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-        category: "chairs",
+        category: "sofa",
         price: "549.99"
     },
     {
@@ -36,7 +36,7 @@ export const initialItems = [
         title: "Lamp",
         img: "lamp.jpg",
         desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-        category: "chairs",
+        category: "light",
         price: "25.00"
     },
     {
@@ -48,3 +48,5 @@ export const initialItems = [
         price: "49.99"
     }
 ]
+
+let filterCategory = initialItems;

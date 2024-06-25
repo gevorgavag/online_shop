@@ -1,16 +1,22 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
+import ShowFullItem from "./ShowFullItem";
 
-const Item = ({item}) => {
+const Item = ({item, setShowFullItem, showFullItem, setItemValue}) => {
     const dispatch = useDispatch();
+
 
     return (
         <div
             className="w-[30%] mb-[50px] bg-gray-100 overflow-hidden relative pb-[20px]"
         >
             <img
-                className="w-full rounded-t-xl hover:scale-105 duration-500 h-[500px]"
+                className="w-full hover:scale-105 duration-500 h-[400px] cursor-pointer"
                 src={"./img/" + item.img}
+                onClick={() => {
+                    setItemValue(item);
+                    setShowFullItem(!showFullItem);
+                }}
             />
             <div className="text-2xl font-semibold my-[10px] mx-[20px] text-[#333]">{item.title}</div>
             <p className="opacity-50 mx-[20px] text-[#333]">{item.desc}</p>

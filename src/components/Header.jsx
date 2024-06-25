@@ -1,44 +1,62 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FaShoppingCart} from 'react-icons/fa';
 import {useSelector} from "react-redux";
 import Order from "./Order";
+import {useOutsideClick} from "../hooks/useOutsideClick";
+
+
 
 const Header = () => {
-    const [cartOpen, setCartOpen] = useState(false)
 
-    const orders = useSelector(state => state.orders)
+    const {orders} = useSelector(state => state);
 
-    
+    let result = 0;
+    orders.map(order => {
+        return result += Number.parseFloat(order.price);
+    })
+
+    const {isActive, setIsActive, ref} = useOutsideClick(false);
+
     return (
         <header className="font-semibold text-xl relative">
-            <div>
-                <span>House Staff</span>
-                <ul className="float-right font-normal">
-                    <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">About us</li>
-                    <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">Contacts</li>
-                    <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">Office</li>
-                </ul>
-                <FaShoppingCart
-                    onClick={() => {
-                        setCartOpen(!cartOpen);
-                    }}
-                    className={`${cartOpen ? "text-red-600 scale-150 duration-500" : "text-black"} hover:scale-150 float-right cursor-pointer duration-500 hover:text-red-600`}
-                />
-                {
-                    cartOpen && (
-                        <div className="absolute top-[30px] right-0 w-[450px] text bg-gray-100 shadow-xl shadow-gray-300 z-10 px-[20px] pt-[20px]">
-                            {
-                                orders.length > 0
-                                ?
-                                orders.map(item => {
-                                    return <Order key={item.id} item={item} />
-                                })
-                                    :
-                                    <p className="pb-[20px]">No thing</p>
-                            }
-                        </div>
-                    )
-                }
+            <div className="flex justify-between">
+                <div className="items-center justify-center">House Staff</div>
+                <div className="flex">
+                    <div ref={ref}>
+                        <FaShoppingCart
+                            onClick={(e) => {
+                                setIsActive(!isActive);
+                            }}
+                            className={`${isActive ? "text-red-600 scale-150 duration-500" : "text-black"} hover:scale-150 float-right cursor-pointer duration-500 hover:text-red-600`}
+                        />
+                        {
+                            isActive && (
+                                <div
+                                    className="absolute top-[30px] right-0 w-[450px] text bg-gray-100 shadow-xl shadow-gray-300 z-10 px-[20px] pt-[20px]">
+                                    {
+                                        orders.length > 0
+                                            ?
+                                            orders.map(item => {
+                                                return (
+                                                    <Order key={item.id} item={item}/>
+                                                )
+                                            })
+                                            :
+                                            <p className="pb-[20px]">No thing</p>
+                                    }
+                                    <p className="float-left mb-2 w-full text-gray-800 font-serif">Summa: {new Intl.NumberFormat().format(result)}$</p>
+                                </div>
+                            )
+                        }
+                    </div>
+                    <ul className="float-right font-normal">
+                        <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">About
+                            us
+                        </li>
+                        <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">Contacts</li>
+                        <li className="inline ml-[25px] cursor-pointer opacity-80 hover:opacity-30 duration-500">Office</li>
+                    </ul>
+                </div>
             </div>
             <div
                 className="w-full my-[50px] relative"
